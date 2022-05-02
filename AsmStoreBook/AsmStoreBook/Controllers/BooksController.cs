@@ -17,8 +17,11 @@ namespace AsmStoreBook.Controllers
         private readonly AsmStoreBookContext _context;
         private readonly UserManager<AsmStoreBookUser> _userManager;
         private readonly int _numberOfRecordEachPages = 6;
-        public BooksController(AsmStoreBookContext context, UserManager<AsmStoreBookUser> userManager)
+        private readonly AsmStoreBookContext dbcontext;
+
+        public BooksController(AsmStoreBookContext context, UserManager<AsmStoreBookUser> userManager, AsmStoreBookContext dbcontext)
         {
+            this.dbcontext = dbcontext;
             _context = context;
             _userManager = userManager;
         }
@@ -58,6 +61,47 @@ namespace AsmStoreBook.Controllers
                     .Include(b => b.Category)
                     .Include(b => b.Store)
                     .ToListAsync();
+            return View(books);
+        }
+        public async Task<IActionResult> Search(string searchString, int id = 0)
+        {
+            ViewData["CurrentFilter"] = searchString;
+            var books = from s in dbcontext.Book
+                        .Include(s => s.Category)
+                        .Include(s => s.Store)
+                        select s;
+            books = books.Where(s => s.Title.Contains(searchString));
+            int numberOfRecords = books.Count();
+            int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
+            ViewBag.numberOfPages = numberOfPages;
+            ViewBag.numberOfRecords = numberOfRecords;
+            if (numberOfRecords > 0)
+            {
+                int max = 5;
+                int min;
+                int end;
+                if (numberOfRecords < max)
+                {
+                    min = 1;
+                    end = numberOfRecords;
+                }
+                else
+                {
+                    min = id;
+                    end = id + max - 1;
+                }
+                ViewBag.max = max;
+                ViewBag.min = min;
+                ViewBag.end = end;
+            }
+            List<Book> booksList = await books
+                .Skip(id * _numberOfRecordEachPages)
+                .Take(_numberOfRecordEachPages)
+                .Include(b => b.Category)
+                .Include(b => b.Store)
+                .ToListAsync();
+            ViewBag.EndPage = numberOfPages - 1;
+            ViewBag.currentPage = id;
             return View(books);
         }
         public async Task<IActionResult> UserIndexAsync()

@@ -276,3 +276,5 @@ C:\Users\ACER\Documents\GitHub\AsmStoreBook\AsmStoreBook\AsmStoreBook\obj\Debug\
 C:\Users\ACER\Documents\GitHub\AsmStoreBook\AsmStoreBook\AsmStoreBook\bin\Debug\net6.0\MailKit.dll
 C:\Users\ACER\Documents\GitHub\AsmStoreBook\AsmStoreBook\AsmStoreBook\bin\Debug\net6.0\MimeKit.dll
 C:\Users\ACER\Documents\GitHub\AsmStoreBook\AsmStoreBook\AsmStoreBook\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\ACER\Documents\GitHub\AsmStoreBook\AsmStoreBook\AsmStoreBook\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutAdmin.cshtml.rz.scp.css
+C:\Users\ACER\Documents\GitHub\AsmStoreBook\AsmStoreBook\AsmStoreBook\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutUser.cshtml.rz.scp.css

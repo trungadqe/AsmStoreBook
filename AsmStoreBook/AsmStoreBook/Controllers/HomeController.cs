@@ -21,8 +21,32 @@ namespace AsmStoreBook.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var userName = await _userManager.GetUserAsync(HttpContext.User);
+            /*var rolesname = await _userManager.GetRolesAsync(userName);
+            if (rolesname.Contains("Customer"))
+            {
+                return RedirectToAction("CusIndex", "Books", new { area = "" });
+            }
+            if (rolesname.Contains("Seller"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }*/
+            return View();
+        }
+        public async Task<IActionResult> UserIndex()
+        {
+            var userName = await _userManager.GetUserAsync(HttpContext.User);
+            /*var rolesname = await _userManager.GetRolesAsync(userName);
+            if (rolesname.Contains("Customer"))
+            {
+                return RedirectToAction("CusIndex", "Books", new { area = "" });
+            }
+            if (rolesname.Contains("Seller"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }*/
             return View();
         }
 

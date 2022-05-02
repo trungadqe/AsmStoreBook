@@ -26,6 +26,10 @@ namespace AsmStoreBook.Controllers
         public async Task<IActionResult> Index()
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
+            /*if (thisUserId == null)
+            {
+                return Rea
+            }*/
             return View(_context.Cart.Where(c => c.UId == thisUserId));
         }
 
