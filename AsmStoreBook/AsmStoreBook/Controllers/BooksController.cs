@@ -28,7 +28,13 @@ namespace AsmStoreBook.Controllers
             var asmStoreBookContext = _context.Book.Include(b => b.Category).Include(b => b.Store);
             return View(await asmStoreBookContext.ToListAsync());
         }
-
+        public async Task<IActionResult> UserIndexAsync()
+        {
+            var Book = _context.Book.Include(b => b.Store)
+                                    .Include(b => b.Category);
+            ViewData["CategoryName"] = new SelectList(_context.Category.ToList(), "Name", "Name");
+            return View(await Book.ToListAsync());
+        }
         // GET: Books/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -90,7 +96,7 @@ namespace AsmStoreBook.Controllers
                     if (store == null)
                     {
                         return RedirectToAction("Create", "Stores", new { area = "" });
-                    }
+                    } 
                 }
                 _context.Add(book);
                 await _context.SaveChangesAsync();
@@ -104,6 +110,7 @@ namespace AsmStoreBook.Controllers
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+
             if (id == null)
             {
                 return NotFound();
