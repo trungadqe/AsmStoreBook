@@ -25,8 +25,8 @@ namespace AsmStoreBook.Controllers
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-            string UserID = _userManager.GetUserId(HttpContext.User);
-            return View(_context.Cart.Where(c => c.UId == UserID));
+            string thisUserId = _userManager.GetUserId(HttpContext.User);
+            return View(_context.Cart.Where(c => c.UId == thisUserId));
         }
 
         // GET: Carts/Details/5
@@ -107,7 +107,7 @@ namespace AsmStoreBook.Controllers
                     Console.WriteLine("Error occurred in Checkout" + ex);
                 }
             }
-            return RedirectToAction("Index", "Cart");
+            return RedirectToAction("Index", "Carts");
         }
 
 
