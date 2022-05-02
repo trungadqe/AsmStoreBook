@@ -16,6 +16,7 @@ namespace AsmStoreBook.Controllers
     {
         private readonly AsmStoreBookContext _context;
         private readonly UserManager<AsmStoreBookUser> _userManager;
+        private readonly int _numberOfRecordEachPages = 6;
         public BooksController(AsmStoreBookContext context, UserManager<AsmStoreBookUser> userManager)
         {
             _context = context;
@@ -23,10 +24,41 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Books
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id =0)
         {
-            var asmStoreBookContext = _context.Book.Include(b => b.Category).Include(b => b.Store);
-            return View(await asmStoreBookContext.ToListAsync());
+
+            int numberOfRecords = await _context.Book.CountAsync();
+            int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
+            ViewBag.numberOfPages = numberOfPages;
+            ViewBag.numberOfRecords = numberOfRecords;
+            if (numberOfRecords > 0)
+            {               
+                int max = 5;
+                int min;
+                int end;
+                if (numberOfRecords < max)
+                {
+                    min = 1;
+                    end = numberOfRecords;
+                }
+                else
+                {
+                    min = id;
+                    end = id + max - 1;
+                }
+                ViewBag.max = max;
+                ViewBag.min = min;
+                ViewBag.end = end;
+            }
+            ViewBag.EndPage = numberOfPages - 1;
+            ViewBag.currentPage = id;
+            List<Book> books = await _context.Book
+                    .Skip(id * _numberOfRecordEachPages)
+                    .Take(_numberOfRecordEachPages)
+                    .Include(b => b.Category)
+                    .Include(b => b.Store)
+                    .ToListAsync();
+            return View(books);
         }
         public async Task<IActionResult> UserIndexAsync()
         {
@@ -88,7 +120,7 @@ namespace AsmStoreBook.Controllers
                     {
                         image.CopyTo(stream);
                     }
-                    book.ImgUrl = "img/" + imgName;
+                    book.ImgUrl = "/img/" + imgName;
                     var userId = _userManager.GetUserId(HttpContext.User);
 
                     var store = await _context.Store.FirstAsync(x => x.UId == userId);
@@ -110,13 +142,16 @@ namespace AsmStoreBook.Controllers
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-
+            var userId = _userManager.GetUserId(HttpContext.User);
+            //check Owner
             if (id == null)
             {
                 return NotFound();
             }
 
-            var book = await _context.Book.FindAsync(id);
+            var book = await _context.Book
+                                .Include(b => b.Store)
+                                .FirstOrDefaultAsync(m => m.Isbn == id);
             if (book == null)
             {
                 return NotFound();
