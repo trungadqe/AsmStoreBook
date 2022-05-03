@@ -27,40 +27,86 @@ namespace AsmStoreBook.Controllers
         public async Task<IActionResult> Index()
         {
             var userName = await _userManager.GetUserAsync(HttpContext.User);
+            if (userName == null)
+            {
+                return RedirectToAction("NoLogin", "Home");
+            }
             var rolesname = await _userManager.GetRolesAsync(userName);
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var store = _context.Store.FirstOrDefault(x => x.UId == userId);
-            var asmStoreBookContext = _context.Store.Include(s => s.User);
+            if (rolesname.Contains("Customer"))
+            {
+                return View(await _context.Store
+                    .Include(s=> s.User)
+                    .ToListAsync());
+            }
             if (rolesname.Contains("Seller"))
             {
+                var userId = _userManager.GetUserId(HttpContext.User);
+                var store = _context.Store.FirstOrDefault(x => x.UId == userId);
                 if (store == null)
                 {
                     return RedirectToAction("Create", "Stores", new { area = "" });
                 }
+                var asmStoreBookContext = _context.Store.Include(s => s.User);
                 return RedirectToAction("Details", "Stores", new { area = "" });
+                return View(await asmStoreBookContext.ToListAsync());
             }
-            return View(await asmStoreBookContext.ToListAsync());
+            return View();
         }
-
+        /*public async Task<IActionResult> Product()
+        {
+            var userName = await _userManager.GetUserAsync(HttpContext.User);
+            if (userName == null)
+            {
+                return RedirectToAction("NoLogin", "Home");
+            }
+            var rolesname = await _userManager.GetRolesAsync(userName);
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var store = _context.Store.Include(s => s.Books);
+            return View(store);
+        }*/
         // GET: Stores/Details/5
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(int? id)
         {
 
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var store = _context.Store
-            .Include(s => s.User)
-            .FirstOrDefault(x => x.UId == userId);
-            var id = store.Id;
-            if (id == null)
+            var userId = _userManager.GetUserId(HttpContext.User);            
+            if (userId == null)
             {
-                return NotFound();
+                return RedirectToAction("NoLogin", "Home");
             }
-            if (store == null)
+            var userName = await _userManager.GetUserAsync(HttpContext.User);
+            var rolesname = await _userManager.GetRolesAsync(userName);
+            if (rolesname.Contains("Seller"))
             {
-                return NotFound();
+            var store = _context.Store
+                    .Include(s => s.User)
+                    .FirstOrDefault(x => x.UId == userId);
+                id = store.Id;
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                if (store == null)
+                {
+                    return NotFound();
+                }
+                return View(store);
+            }
+            if (rolesname.Contains("Customer"))
+            {
+                var store = await _context.Store
+                           .FirstOrDefaultAsync(m => m.Id == id);
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                if (store == null)
+                {
+                    return NotFound();
+                }
+                return View(store);
             }
 
-            return View(store);
+                return View();
         }
 
         // GET: Stores/Create
@@ -91,6 +137,7 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Stores/Edit/5
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

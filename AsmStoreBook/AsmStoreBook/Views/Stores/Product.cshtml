@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AsmStoreBook.Models.Store>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")  
+        <input type="submit" value="Search" /></p>
+}
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+    <div class="container">
+      <div class="row">
+          @foreach (var Store in Model)
+          {
+              <div class="col-md-4 col-6">
+                  <div class="card" style="width: 18rem;">
+                      <img src="@book.ImgUrl" class="card-img-top" alt="...">
+                      <div class="card-body">
+                          <h5 class="card-title">@book.Title</h5>
+                          <a asp-action="Details" asp-route-id="@book.Isbn" class="btn btn-primary">Detail</a>
+                          <a asp-action="AddToCart" asp-controller="Carts" asp-route-isbn="@book.Isbn" class="btn btn-primary">Add to cart</a>
+                      </div>
+                  </div>
+              </div>
+          }
+      </div>
+  </div>
+
+<div style="display:flex;text-align:center;justify-content:center">
+      <nav aria-label="Page navigation example">
+          <ul class="pagination">
+              <li class="page-item">
+                      <a class="page-link" asp-route-id="0">First</a>
+              </li>
+              @for (var i = @ViewBag.min; i < @ViewBag.end; i++)
+              {
+                  var style = (ViewBag.currentPage == @i) ? "active" : "";
+                  <li class="page-item @style">
+                      <a class="page-link" asp-route-id="@i">@(i+1)</a>
+                  </li>
+              }
+              <li class="page-item">
+                      <a class="page-link" asp-route-id="@ViewBag.numberOfPages">EndPage</a>
+              </li>
+          </ul>
+      </nav>
+</div>

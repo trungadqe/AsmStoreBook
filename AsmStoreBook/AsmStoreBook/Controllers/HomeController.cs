@@ -35,6 +35,11 @@ namespace AsmStoreBook.Controllers
             }*/
             return View();
         }
+        public async Task<IActionResult> NoLogin()
+        {
+            var userName = await _userManager.GetUserAsync(HttpContext.User);
+            return View();
+        }
         public async Task<IActionResult> UserIndex()
         {
             var userName = await _userManager.GetUserAsync(HttpContext.User);

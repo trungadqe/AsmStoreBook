@@ -1,0 +1,44 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="container">
+        <div id="success-box">
+          <div class="dot"></div>
+          <div class="dot two"></div>
+          <div class="face">
+            <div class="eye"></div>
+            <div class="eye right"></div>
+            <div class="mouth happy"></div>
+          </div>
+          <div class="shadow scale"></div>
+          <div class="message"><h1 class="alert">Login</h1><p></p></div>
+          <a href= "~/Identity/Account/Login" target=_blank> <button type="button-box" class="button-box"><h1 class="green">click here</h1></button></a> 
+        </div>
+        <div id="error-box">
+          <div class="dot"></div>
+          <div class="dot two"></div>
+          <div class="face2">
+            <div class="eye"></div>
+            <div class="eye right"></div>
+            <div class="mouth sad"></div>
+          </div>
+          <div class="shadow move"></div>
+          <div class="message"><h1 class="alert">Return Home</h1><p></div>
+          <a asp-controller="Books" asp-action="Index" target=_blank> <button type="button-box" class="button-box"><h1 class="red">click here</h1></button></a> 
+        </div>
+      </div>
+      
+      <footer>
+        <p>made by <a href="https://codepen.io/juliepark"> julie</a> ♡
+      </footer>
+</body>
+</html>

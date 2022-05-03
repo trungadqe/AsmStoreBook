@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using AsmStoreBook.Areas.Identity.Data;
 using AsmStoreBook.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AsmStoreBook.Controllers
 {
@@ -70,7 +71,90 @@ namespace AsmStoreBook.Controllers
                         .Include(s => s.Category)
                         .Include(s => s.Store)
                         select s;
-            books = books.Where(s => s.Title.Contains(searchString));
+            if (searchString == null)
+            {
+            int numberOfRecords = await _context.Book.CountAsync();
+            int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
+            ViewBag.numberOfPages = numberOfPages;
+            ViewBag.numberOfRecords = numberOfRecords;
+            if (numberOfRecords > 0)
+            {               
+                int max = 5;
+                int min;
+                int end;
+                if (numberOfRecords < max)
+                {
+                    min = 1;
+                    end = numberOfRecords;
+                }
+                else
+                {
+                    min = id;
+                    end = id + max - 1;
+                }
+                ViewBag.max = max;
+                ViewBag.min = min;
+                ViewBag.end = end;
+            }
+            ViewBag.EndPage = numberOfPages - 1;
+            ViewBag.currentPage = id;
+            List<Book> booksList = await _context.Book
+                    .Skip(id * _numberOfRecordEachPages)
+                    .Take(_numberOfRecordEachPages)
+                    .Include(b => b.Category)
+                    .Include(b => b.Store)
+                    .ToListAsync();
+            return View(books);
+            }
+            else
+            {
+                books = books.Where(s => s.Title.Contains(searchString));
+                int numberOfRecords = books.Count();
+                int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
+                ViewBag.numberOfPages = numberOfPages;
+                ViewBag.numberOfRecords = numberOfRecords;
+                if (numberOfRecords > 0)
+                {
+                    int max = 5;
+                    int min;
+                    int end;
+                    if (numberOfRecords < max)
+                    {
+                        min = 1;
+                        end = numberOfRecords;
+                    }
+                    else
+                    {
+                        min = id;
+                        end = id + max - 1;
+                        if (end > numberOfRecords)
+                        {
+                            end = numberOfRecords;
+                        }
+                    }
+                    ViewBag.max = max;
+                    ViewBag.min = min;
+                    ViewBag.end = end;
+                }
+                List<Book> booksList = await books
+                    .Skip(id * _numberOfRecordEachPages)
+                    .Take(_numberOfRecordEachPages)
+                    .Include(b => b.Category)
+                    .Include(b => b.Store)
+                    .ToListAsync();
+                ViewBag.EndPage = numberOfPages - 1;
+                ViewBag.currentPage = id;
+                return View(books);
+            }            
+            return View();
+        }
+        /*public async Task<IActionResult> ListBookOfStore(int? id)
+        {
+            var books = from s in dbcontext.Book
+                       .Include(s => s.Category)
+                       .Include(s => s.Store)
+                        select s;
+            books = books.Where(s => s.Store.Id.Contains(id));
             int numberOfRecords = books.Count();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
             ViewBag.numberOfPages = numberOfPages;
@@ -103,7 +187,7 @@ namespace AsmStoreBook.Controllers
             ViewBag.EndPage = numberOfPages - 1;
             ViewBag.currentPage = id;
             return View(books);
-        }
+        }*/
         public async Task<IActionResult> UserIndexAsync()
         {
             var Book = _context.Book.Include(b => b.Store)

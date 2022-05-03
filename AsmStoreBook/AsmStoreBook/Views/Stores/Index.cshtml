@@ -40,12 +40,10 @@
                 @Html.DisplayFor(modelItem => item.Slogan)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.FullName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-controller="Books" asp-action="ListBookOfStore" asp-route-id="@item.Id">List Book Of Store</a>
             </td>
         </tr>
 }

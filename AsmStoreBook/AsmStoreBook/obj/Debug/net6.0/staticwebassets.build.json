@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RcmYWBF4LHt2CFLR8mIrcN4CLhcIt4kVbpBJ0RsXV9A=",
+  "Hash": "2TejiE0FaZjA4z8/6uQuMhO/+gYxAXWibIEIazerpEw=",
   "Source": "AsmStoreBook",
   "BasePath": "_content/AsmStoreBook",
   "Mode": "Default",
@@ -1069,6 +1069,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\ACER\\Documents\\GitHub\\AsmStoreBook\\AsmStoreBook\\AsmStoreBook\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\AsmStoreBook.bundle.scp.css"
+    },
+    {
+      "Identity": "C:\\Users\\ACER\\Documents\\GitHub\\AsmStoreBook\\AsmStoreBook\\AsmStoreBook\\wwwroot\\css\\bootstrap.min.css",
+      "SourceId": "AsmStoreBook",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ACER\\Documents\\GitHub\\AsmStoreBook\\AsmStoreBook\\AsmStoreBook\\wwwroot\\",
+      "BasePath": "_content/AsmStoreBook",
+      "RelativePath": "css/bootstrap.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\bootstrap.min.css"
     },
     {
       "Identity": "C:\\Users\\ACER\\Documents\\GitHub\\AsmStoreBook\\AsmStoreBook\\AsmStoreBook\\wwwroot\\css\\site.css",

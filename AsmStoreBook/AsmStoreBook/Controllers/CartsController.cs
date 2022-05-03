@@ -26,10 +26,10 @@ namespace AsmStoreBook.Controllers
         public async Task<IActionResult> Index()
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
-            /*if (thisUserId == null)
+            if (thisUserId == null)
             {
-                return Rea
-            }*/
+                return RedirectToAction("NoLogin", "Home");
+            }
             return View(_context.Cart.Where(c => c.UId == thisUserId));
         }
 
