@@ -1,6 +1,7 @@
 ﻿using AsmStoreBook.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace AsmStoreBook.Controllers
@@ -27,7 +28,7 @@ namespace AsmStoreBook.Controllers
 
             return View(user);
         }
-        /*public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var user = _context.Users
@@ -58,7 +59,7 @@ namespace AsmStoreBook.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AsmStoreBookUserExists(user.Id))
+                    if (!AsmStoreBookUserExists(Convert.ToInt32(user.Id)))
                     {
                         return NotFound();
                     }
@@ -69,14 +70,14 @@ namespace AsmStoreBook.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            *//*ViewData["StoreId"] = new SelectList(_context.Store, "Id", "Id", book.StoreId);*//*
+            /*ViewData["StoreId"] = new SelectList(_context.Store, "Id", "Id", book.StoreId);*/
             return View(user);
-        }*/
-        /*private bool AsmStoreBookUserExists(int? id)
+        }
+        private bool AsmStoreBookUserExists(int? id)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             return _context.Users.Any(u => u.Id == userId);
 
-        }*/
+        }
     }
 }

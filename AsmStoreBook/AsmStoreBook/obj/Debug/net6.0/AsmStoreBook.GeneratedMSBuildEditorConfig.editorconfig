@@ -19,6 +19,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxDb25maXJtRW1haWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Areas/Identity/Pages/Account/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -135,6 +139,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Orders/Detail.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERldGFpbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Orders/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JkZXJzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -177,10 +185,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Stores/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcmVzXEluZGV4LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Stores/Product.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RvcmVzXFByb2R1Y3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Users/Edit.cshtml]

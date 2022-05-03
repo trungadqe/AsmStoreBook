@@ -4,11 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")  
+        <input asp-controller="Books" asp-action="Search"  type="submit" value="Search" /></p>
+}
 <h1>Index</h1>
-
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+    </p>
     <div class="container">
       <div class="row">
           @foreach (var book in Model)

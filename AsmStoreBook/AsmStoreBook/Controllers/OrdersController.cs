@@ -23,15 +23,46 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Orders
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexAsync()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var orders =  _context.Order
+                .Include(o => o.OrderDetails)
+                .Where(u => u.UId == userId);
+            return View(orders);
+        }
+        public async Task<IActionResult> DetailAsync(int? id)
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = _context.Order
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Book)
+                .Where(u => u.UId == userId);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+        /*public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
             var order = _context.Order
+                .Include(o => o.OrderDetails)
+                .Include(o => o.User)
                 .Where(u => u.UId == userId);
-            /*var asmStoreBookContext = _context.Order.Include(o => o.UId = userId);*/
-            /*return View(await asmStoreBookContext.ToListAsync());*/
-            return View(order);
-        }
+            var OrderDetails = _context.OrderDetail
+                .Include(or => or.Book);
+            *//*var asmStoreBookContext = _context.Order.Include(o => o.UId = userId);*/
+        /*return View(await asmStoreBookContext.ToListAsync());*//*
+        return View(order);
+    }*/
 
 
         // GET: Orders/Details/5
