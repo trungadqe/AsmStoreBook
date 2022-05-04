@@ -11,9 +11,6 @@
         <input asp-controller="Books" asp-action="Search"  type="submit" value="Search" /></p>
 }
 <h1>Index</h1>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
     </p>
     <div class="container">
       <div class="row">
@@ -25,7 +22,7 @@
                       <div class="card-body">
                           <h5 class="card-title">@book.Title</h5>
                           <a asp-action="Details" asp-route-id="@book.Isbn" class="btn btn-primary">Detail</a>
-                          <a asp-action="AddToCart" asp-controller="Carts" asp-route-isbn="@book.Isbn" class="btn btn-primary">Add to cart</a>
+                          <a asp-action="AddToCart" asp-controller="Carts" asp-route-isbn="@book.Isbn" asp-route-price="@book.Price" class="btn btn-primary">Add to cart</a>
                       </div>
                   </div>
               </div>

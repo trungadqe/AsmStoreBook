@@ -31,6 +31,23 @@ namespace AsmStoreBook.Controllers
                 .Where(u => u.UId == userId);
             return View(orders);
         }
+        /*public async Task<IActionResult> IndexStoreAsync()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var orders = _context.Order
+                .Include(or => or.OrderDetails)
+                .ThenInclude(or => or.Book)
+                .Where(or => or.OrderDetails. == userId);
+            return View(orders);
+        }*/
+        /*public async Task<IActionResult> IndexStoreAsync()
+        {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var orders = _context.Order
+                .Include(o => o.OrderDetails)
+                .Where(u => u.UId == userId);
+            return View(orders);
+        }*/
         public async Task<IActionResult> DetailAsync(int? id)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
@@ -39,10 +56,10 @@ namespace AsmStoreBook.Controllers
                 return NotFound();
             }
 
-            var order = _context.Order
+            var order = await _context.Order
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Book)
-                .Where(u => u.UId == userId);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (order == null)
             {
                 return NotFound();

@@ -4,6 +4,7 @@ using AsmStoreBook.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AsmStoreBook.Migrations
 {
     [DbContext(typeof(AsmStoreBookContext))]
-    partial class AsmStoreBookContextModelSnapshot : ModelSnapshot
+    [Migration("20220504100102_fixcart1")]
+    partial class fixcart1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,12 +148,6 @@ namespace AsmStoreBook.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double?>("Quantity")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("TotalPrice")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("UnitPrice")
                         .HasColumnType("float");
 
                     b.HasKey("UId", "BookIsbn");

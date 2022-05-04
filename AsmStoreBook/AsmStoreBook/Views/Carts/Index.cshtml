@@ -15,7 +15,7 @@
             <th> Title </th>
             <th> Price </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
+                @Html.DisplayNameFor(model => model.TotalPrice)
             </th>
             <th>Total</th>
             <th></th>
@@ -24,7 +24,6 @@
     <tbody>
         @foreach (var item in Model)
         {
-            var Total = item.Quantity * item.Book.Price;
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Book.Title)
@@ -33,18 +32,15 @@
                     @Html.DisplayFor(modelItem => item.Book.Price)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
+                    <input asp-for="@item.Quantity" class="product-quantity" type="number">
                 </td>
                 <td>
-                    @Total
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
                 </td>
             </tr>
         }
+        <p>@ViewBag.subPrice</p>
     </tbody>
+
 </table>
 <a asp-controller="Carts" asp-action="Checkout">Checkout</a>

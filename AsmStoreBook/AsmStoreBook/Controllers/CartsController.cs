@@ -33,16 +33,18 @@ namespace AsmStoreBook.Controllers
             var cart = _context.Cart
                 .Include(c => c.Book)
                 .Where(c => c.UId == thisUserId);
-            double TotalAll = 0;
-            foreach (var item in cart)
+            /*foreach (var item in cart)
             {
-                var total = item.Quantity * item.Book.Price;
-                /*TotalAll = TotalAll + total;*/
-                /*TotalAll += total;*/
-            }
-            
-            ViewData["TotalAll"] = TotalAll;
-                return View(cart);
+                var Total = item.Quantity * item.Book.Price;
+                var All = Total;
+            }*/
+            /*ViewData["All"] = All;
+             nghiên cứu thêm lỗi chỗ ni */
+            /*ViewData["TotalPrice"] = ne*/
+            ViewData["subPrice"] = new SelectList(_context.Cart.Where(c => c.UId == thisUserId), "TotalPrice", "TotalPrice");
+            /*Cart subPrice = cart.Take();
+            Book test = Book.Take()*/
+            return View(cart);
         }
 
         // GET: Carts/Details/5
@@ -56,7 +58,7 @@ namespace AsmStoreBook.Controllers
             var cart = await _context.Cart
                 .Include(c => c.Book)
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.UId == id);
+                .FirstOrDefaultAsync(c => c.UId == id);
             if (cart == null)
             {
                 return NotFound();
@@ -66,12 +68,17 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Carts/Create
-        public async Task<IActionResult> AddToCart(string isbn)
+        public async Task<IActionResult> AddToCart(string isbn, double Price)
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
-            Cart myCart = new Cart() { UId = thisUserId, BookIsbn = isbn , Quantity = 1 };
+            Cart myCart = new Cart() { 
+                UId = thisUserId, 
+                BookIsbn = isbn , 
+                Quantity = 1,
+                UnitPrice = Price,
+                TotalPrice = Price,
+            };
             Cart fromDb = _context.Cart.FirstOrDefault(c => c.UId == thisUserId && c.BookIsbn == isbn);
-            //if not existing (or null), add it to cart. If already added to Cart before, ignore it.
             if (fromDb == null)
             {
                 _context.Add(myCart);
@@ -80,6 +87,8 @@ namespace AsmStoreBook.Controllers
             else
             {
                 fromDb.Quantity++;
+                fromDb.UnitPrice = Price * fromDb.Quantity;
+                fromDb.TotalPrice = fromDb.TotalPrice + fromDb.Quantity;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index", "Books");
@@ -99,7 +108,10 @@ namespace AsmStoreBook.Controllers
                     Order myOrder = new Order();
                     myOrder.UId = thisUserId;
                     myOrder.OrderDate = DateTime.Now;
-                    myOrder.Total = myDetailsInCart.Select(c => c.Book.Price)
+                    /*myOrder.Total = myDetailsInCart.Select(c => c.Book.Price)
+                        .Aggregate((c1, c2) => c1 + c2);
+                    _context.Add(myOrder);*/
+                    myOrder.Total = myDetailsInCart.Select(c => c.UnitPrice)
                         .Aggregate((c1, c2) => c1 + c2);
                     _context.Add(myOrder);
                     await _context.SaveChangesAsync();
@@ -111,7 +123,7 @@ namespace AsmStoreBook.Controllers
                         {
                             OrderId = myOrder.Id,
                             BookIsbn = item.BookIsbn,
-                            Quantity = 1
+                            Quantity = item.Quantity,
                         };
                         _context.Add(detail);
                     }

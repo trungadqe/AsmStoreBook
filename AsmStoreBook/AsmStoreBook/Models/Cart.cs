@@ -11,6 +11,8 @@ namespace AsmStoreBook.Models
         public string? BookIsbn { get; set; } = null!;
         public AsmStoreBookUser? User { get; set; } = null!;
         public Book? Book { get; set; } = null!;
-        public int? Quantity { get; set; } = null!;
+        public double? Quantity { get; set; } = null!;
+        public double? UnitPrice { get; set; } = null!;
+        public double? TotalPrice { get; set; } = null!;
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AsmStoreBook.Models.Order>
+﻿@model AsmStoreBook.Models.Order
 
 @{
     ViewData["Title"] = "Detail";
@@ -21,26 +21,27 @@
             <th>
                 Total Price
             </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            @foreach (var detail in item.OrderDetails)
+            @foreach (var detail in Model.OrderDetails)
             {
                 <tr>
                     <td>
                        @detail.Book.Title                      
                     </td>
                     <td>
-                       1                    
+                       @detail.Quantity                   
                     </td>
                     <td>
                        @detail.Book.Price                 
                     </td>
+                    <td>
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@detail.Book.Isbn">Infor Book</a>
+                    </td>
                 </tr>
             }
-        }
     </tbody>
 </table>
 
