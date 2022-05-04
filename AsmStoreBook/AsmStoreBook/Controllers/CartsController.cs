@@ -68,7 +68,7 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Carts/Create
-        public async Task<IActionResult> AddToCart(string isbn, double Price)
+        public async Task<IActionResult> AddToCart(string isbn, double Price, [Bind("Quantity")] Cart cart) 
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
             Cart myCart = new Cart() { 
@@ -87,6 +87,32 @@ namespace AsmStoreBook.Controllers
             else
             {
                 fromDb.Quantity++;
+                fromDb.UnitPrice = Price * fromDb.Quantity;
+                fromDb.TotalPrice = fromDb.TotalPrice + fromDb.Quantity;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", "Books");
+        }
+        public async Task<IActionResult> IncreaseNumBook(string isbn, double Price, double Quantity)
+        {
+            string thisUserId = _userManager.GetUserId(HttpContext.User);
+            Cart myCart = new Cart()
+            {
+                UId = thisUserId,
+                BookIsbn = isbn,
+                Quantity = 1,
+                UnitPrice = Price,
+                TotalPrice = Price,
+            };
+            Cart fromDb = _context.Cart.FirstOrDefault(c => c.UId == thisUserId && c.BookIsbn == isbn);
+            if (fromDb == null)
+            {
+                _context.Add(myCart);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                fromDb.Quantity = Quantity;
                 fromDb.UnitPrice = Price * fromDb.Quantity;
                 fromDb.TotalPrice = fromDb.TotalPrice + fromDb.Quantity;
                 await _context.SaveChangesAsync();
