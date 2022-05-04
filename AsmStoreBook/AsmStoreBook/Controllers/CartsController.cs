@@ -30,7 +30,19 @@ namespace AsmStoreBook.Controllers
             {
                 return RedirectToAction("NoLogin", "Home");
             }
-            return View(_context.Cart.Where(c => c.UId == thisUserId));
+            var cart = _context.Cart
+                .Include(c => c.Book)
+                .Where(c => c.UId == thisUserId);
+            double TotalAll = 0;
+            foreach (var item in cart)
+            {
+                var total = item.Quantity * item.Book.Price;
+                /*TotalAll = TotalAll + total;*/
+                /*TotalAll += total;*/
+            }
+            
+            ViewData["TotalAll"] = TotalAll;
+                return View(cart);
         }
 
         // GET: Carts/Details/5
@@ -57,7 +69,7 @@ namespace AsmStoreBook.Controllers
         public async Task<IActionResult> AddToCart(string isbn)
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
-            Cart myCart = new Cart() { UId = thisUserId, BookIsbn = isbn };
+            Cart myCart = new Cart() { UId = thisUserId, BookIsbn = isbn , Quantity = 1 };
             Cart fromDb = _context.Cart.FirstOrDefault(c => c.UId == thisUserId && c.BookIsbn == isbn);
             //if not existing (or null), add it to cart. If already added to Cart before, ignore it.
             if (fromDb == null)
@@ -65,7 +77,12 @@ namespace AsmStoreBook.Controllers
                 _context.Add(myCart);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index");
+            else
+            {
+                fromDb.Quantity++;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", "Books");
         }
         public async Task<IActionResult> Checkout()
         {

@@ -48,7 +48,7 @@ namespace AsmStoreBook.Controllers
                 }
                 var asmStoreBookContext = _context.Store.Include(s => s.User);
                 return RedirectToAction("Details", "Stores", new { area = "" });
-                return View(await asmStoreBookContext.ToListAsync());
+                /*return View(await asmStoreBookContext.ToListAsync());*/
             }
             return View();
         }

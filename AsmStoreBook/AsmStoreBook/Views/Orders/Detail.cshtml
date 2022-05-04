@@ -15,23 +15,31 @@
             <th>
                 Books
             </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Total Price
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <ol>
-                        @foreach (var detail in item.OrderDetails)
-                        {
-                            <li>
-                                @detail.Book.Title
-                            </li>
-                        }
-                    </ol>
-                </td>
-            </tr>
+            @foreach (var detail in item.OrderDetails)
+            {
+                <tr>
+                    <td>
+                       @detail.Book.Title                      
+                    </td>
+                    <td>
+                       1                    
+                    </td>
+                    <td>
+                       @detail.Book.Price                 
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

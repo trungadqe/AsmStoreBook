@@ -65,13 +65,13 @@ namespace AsmStoreBook.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Birth Date")]
             [DataType(DataType.Date)]
-            public DateTime? DoB { get; set; }
+            public DateTime? DoB { get; set; } = null!;
 
 
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Address")]
-            public string? Address { get; set; }
+            public string Address { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
