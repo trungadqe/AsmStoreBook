@@ -64,10 +64,10 @@ namespace AsmStoreBook.Controllers
                     .ToListAsync();
             return View(books);
         }
-        public async Task<IActionResult> OrderbookStore(int StoreId)
+        /*public async Task<IActionResult> OrderbookStore(int StoreId)
         {
             var userId = _userManager.GetUserId(HttpContext.User);
-            /*var StoreId = this.dbcontext.Store.GetAsyncEnumerator();*/
+            *//*var StoreId = this.dbcontext.Store.GetAsyncEnumerator();*//*
             List<Book> books = await _context.Book
                 .Include(b => b.OrderDetails)
                 .ThenInclude(b => b.Order)
@@ -76,7 +76,7 @@ namespace AsmStoreBook.Controllers
                 .Where(b => b.StoreId == StoreId)
                 .ToListAsync();
             return View();
-        }
+        }*/
         public async Task<IActionResult> IndexStore(int StoreId, int id = 0)
         {
             ViewData["StoreId"] = StoreId;
