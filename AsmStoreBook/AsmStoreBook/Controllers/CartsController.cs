@@ -68,12 +68,17 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Carts/Create
-        public async Task<IActionResult> AddToCart(string isbn, double Price, [Bind("Quantity")] Cart cart) 
+        public async Task<IActionResult> AddToCart(string isbn, double Price, [Bind("Quantity")] Cart cart)
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
-            Cart myCart = new Cart() { 
-                UId = thisUserId, 
-                BookIsbn = isbn , 
+            if (thisUserId == null)
+            {
+                return RedirectToAction("NoLogin", "Home");
+            }
+            Cart myCart = new Cart()
+            {
+                UId = thisUserId,
+                BookIsbn = isbn,
                 Quantity = 1,
                 UnitPrice = Price,
                 TotalPrice = Price,
@@ -117,7 +122,7 @@ namespace AsmStoreBook.Controllers
                 fromDb.TotalPrice = fromDb.TotalPrice + fromDb.Quantity;
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Index", "Books");
+            return RedirectToAction("Index", "Carts");
         }
         public async Task<IActionResult> Checkout()
         {
@@ -126,46 +131,54 @@ namespace AsmStoreBook.Controllers
                 .Where(c => c.UId == thisUserId)
                 .Include(c => c.Book)
                 .ToListAsync();
-            using (var transaction = _context.Database.BeginTransaction())
+            if (myDetailsInCart.Count > 0)
             {
-                try
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    //Step 1: create an order
-                    Order myOrder = new Order();
-                    myOrder.UId = thisUserId;
-                    myOrder.OrderDate = DateTime.Now;
-                    /*myOrder.Total = myDetailsInCart.Select(c => c.Book.Price)
-                        .Aggregate((c1, c2) => c1 + c2);
-                    _context.Add(myOrder);*/
-                    myOrder.Total = myDetailsInCart.Select(c => c.UnitPrice)
-                        .Aggregate((c1, c2) => c1 + c2);
-                    _context.Add(myOrder);
-                    await _context.SaveChangesAsync();
-
-                    //Step 2: insert all order details by var "myDetailsInCart"
-                    foreach (var item in myDetailsInCart)
+                    try
                     {
-                        OrderDetail detail = new OrderDetail()
-                        {
-                            OrderId = myOrder.Id,
-                            BookIsbn = item.BookIsbn,
-                            Quantity = item.Quantity,
-                        };
-                        _context.Add(detail);
-                    }
-                    await _context.SaveChangesAsync();
+                        //Step 1: create an order
+                        Order myOrder = new Order();
+                        myOrder.UId = thisUserId;
+                        myOrder.OrderDate = DateTime.Now;
+                        /*myOrder.Total = myDetailsInCart.Select(c => c.Book.Price)
+                            .Aggregate((c1, c2) => c1 + c2);
+                        _context.Add(myOrder);*/
+                        myOrder.Total = myDetailsInCart.Select(c => c.UnitPrice)
+                            .Aggregate((c1, c2) => c1 + c2);
+                        _context.Add(myOrder);
+                        await _context.SaveChangesAsync();
 
-                    //Step 3: empty/delete the cart we just done for thisUser
-                    _context.Cart.RemoveRange(myDetailsInCart);
-                    await _context.SaveChangesAsync();
-                    transaction.Commit();
-                }
-                catch (DbUpdateException ex)
-                {
-                    transaction.Rollback();
-                    Console.WriteLine("Error occurred in Checkout" + ex);
+                        //Step 2: insert all order details by var "myDetailsInCart"
+                        foreach (var item in myDetailsInCart)
+                        {
+                            OrderDetail detail = new OrderDetail()
+                            {
+                                OrderId = myOrder.Id,
+                                BookIsbn = item.BookIsbn,
+                                Quantity = item.Quantity,
+                            };
+                            _context.Add(detail);
+                        }
+                        await _context.SaveChangesAsync();
+
+                        //Step 3: empty/delete the cart we just done for thisUser
+                        _context.Cart.RemoveRange(myDetailsInCart);
+                        await _context.SaveChangesAsync();
+                        transaction.Commit();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        transaction.Rollback();
+                        Console.WriteLine("Error occurred in Checkout" + ex);
+                    }
                 }
             }
+            else
+            {
+                return RedirectToAction("Index", "Books");
+            }
+
             return RedirectToAction("Index", "Carts");
         }
 
@@ -244,31 +257,36 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Carts/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        [HttpGet]
+        public async Task<IActionResult> Delete(string BookId)
         {
-            if (id == null)
+            if (BookId == null)
             {
                 return NotFound();
             }
-
-            var cart = await _context.Cart
-                .Include(c => c.Book)
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var myCart = await _context.Cart
                 .Include(c => c.User)
-                .FirstOrDefaultAsync(m => m.UId == id);
-            if (cart == null)
+                .Where(c => c.UId == userId) 
+                .FirstOrDefaultAsync(c => c.BookIsbn == BookId);
+            if (myCart == null)
             {
-                return NotFound();
-            }
+                return NotFound();      
+             }
 
-            return View(cart);
+            return View(myCart);
         }
 
         // POST: Carts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string BookId)
         {
-            var cart = await _context.Cart.FindAsync(id);
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var cart = await _context.Cart
+                .Include(c => c.User)
+                .Where(c => c.UId == userId)
+                .FirstOrDefaultAsync(c => c.BookIsbn == BookId);
             _context.Cart.Remove(cart);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -278,5 +296,5 @@ namespace AsmStoreBook.Controllers
         {
             return _context.Cart.Any(e => e.UId == id);
         }
-    }
+    }   
 }

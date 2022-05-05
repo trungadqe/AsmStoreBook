@@ -18,6 +18,11 @@ namespace AsmStoreBook.Controllers
         public IActionResult Index()
         {
             var userId = _userManager.GetUserId(HttpContext.User);
+            if (userId == null)
+            {
+                return RedirectToAction("NoLogin", "Home");
+            }
+
             var user = _context.Users
                 .FirstOrDefault(u => u.Id == userId);
 

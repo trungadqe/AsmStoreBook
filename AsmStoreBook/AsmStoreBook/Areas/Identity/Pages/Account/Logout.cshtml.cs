@@ -30,7 +30,8 @@ namespace AsmStoreBook.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return RedirectToAction("Index", "Books", new { area = "" });
+                /*return LocalRedirect(returnUrl);*/
             }
             else
             {

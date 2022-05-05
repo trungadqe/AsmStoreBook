@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Cart</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="Books" asp-action="Index">Buy Now</a>
 </p>
 <table class="table">
     <thead>
@@ -39,11 +39,12 @@
                     @Html.DisplayFor(modelItem => item.UnitPrice)
                 </td>
                 <td>
-                <a asp-action="AddToCart" asp-route-isbn="@item.Book.Isbn" value="Save">Confirm</a> |
+                <a asp-action="Detele" asp-route-BookId="@item.Book.Isbn" value="Save">Delete</a>
+                @*<a asp-action="IncreaseNumBook" asp-route-Quantity="@item.Quantity" asp-route-isbn="@item.Book.Isbn" value="Save">Confirm</a> chỉnh sửa*@
             </td>
             </tr>
         }
-        <p>@ViewBag.subPrice</p>
+       
     </tbody>
 
 </table>

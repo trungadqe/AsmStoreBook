@@ -8,7 +8,7 @@
 {
     <p>
         Find by name: @Html.TextBox("SearchString")  
-        <input asp-controller="Books" asp-action="Search"  type="submit" value="Search" /></p>
+        <input asp-controller="Books" asp-action="Search"   type="submit" value="Search" /></p>
 }
 <h1>Index</h1>
     </p>
@@ -36,7 +36,7 @@
               <li class="page-item">
                       <a class="page-link" asp-route-id="0">First</a>
               </li>
-              @for (var i = @ViewBag.min; i < @ViewBag.end; i++)
+              @for (var i = @ViewBag.min; i <= @ViewBag.end; i++)
               {
                   var style = (ViewBag.currentPage == @i) ? "active" : "";
                   <li class="page-item @style">

@@ -22,22 +22,14 @@ namespace AsmStoreBook.Controllers
 
         // GET: OrderDetails
         public async Task<IActionResult> Index(int StoreId)
-        {
-            /*List<Book> books = await _context.Book
-                    .Where(b => b.StoreId == StoreId)
-                    .Skip(id * _numberOfRecordEachPages)
-                    .Take(_numberOfRecordEachPages)
-                    .Include(b => b.Category)
-                    .Include(b => b.Store)
-                    .ToListAsync();*/
+        {          
             List<OrderDetail> orderDetail = await _context.OrderDetail
                 .Include(o => o.Book)
                 .ThenInclude(o => o.Store)
                 .Where(o => o.Book.StoreId == StoreId)
                 .Include(o => o.Order)
                 .ThenInclude(o => o.User)
-                .ToListAsync(); ;
-            /*.ThenInclude(o => o.Store)*/
+                .ToListAsync(); ;         
             return View(orderDetail);
         }
 
