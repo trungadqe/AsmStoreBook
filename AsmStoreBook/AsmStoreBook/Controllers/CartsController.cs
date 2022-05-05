@@ -88,7 +88,7 @@ namespace AsmStoreBook.Controllers
             {
                 fromDb.Quantity++;
                 fromDb.UnitPrice = Price * fromDb.Quantity;
-                fromDb.TotalPrice = fromDb.TotalPrice + fromDb.Quantity;
+                fromDb.TotalPrice = fromDb.TotalPrice + Price;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index", "Books");
