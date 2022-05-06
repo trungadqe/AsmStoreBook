@@ -4,9 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<form asp-controller="Books" asp-action="IndexStore" asp-route-StoreId="@ViewBag.StoreId" method="get">
+<form asp-controller="Books" asp-action="IndexStore" method="get">
     <p>
-        Title: <input  type="text" name="SearchString" />
+        Title: <input type="text" name="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>

@@ -9,11 +9,9 @@
         Find by name: @Html.TextBox("SearchString")  
         <input type="submit" value="Search" /></p>
 }
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
     <div class="container">
       <div class="row">
           @foreach (var book in Model)

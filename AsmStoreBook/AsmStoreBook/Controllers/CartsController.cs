@@ -81,8 +81,7 @@ namespace AsmStoreBook.Controllers
             }
             return RedirectToAction("Index", "Books");
         }
-        [Route("/updatecart", Name = "updatecart")]
-        [HttpPost]        
+              
         public async Task<IActionResult> Checkout()
         {
             string thisUserId = _userManager.GetUserId(HttpContext.User);
@@ -99,10 +98,7 @@ namespace AsmStoreBook.Controllers
                         //Step 1: create an order
                         Order myOrder = new Order();
                         myOrder.UId = thisUserId;
-                        myOrder.OrderDate = DateTime.Now;
-                        /*myOrder.Total = myDetailsInCart.Select(c => c.Book.Price)
-                            .Aggregate((c1, c2) => c1 + c2);
-                        _context.Add(myOrder);*/
+                        myOrder.OrderDate = DateTime.Now;                        
                         myOrder.Total = myDetailsInCart.Select(c => c.UnitPrice)
                             .Aggregate((c1, c2) => c1 + c2);
                         _context.Add(myOrder);

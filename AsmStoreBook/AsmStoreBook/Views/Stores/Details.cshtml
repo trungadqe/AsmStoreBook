@@ -38,6 +38,7 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-controller="Books" asp-action="IndexStore" asp-route-StoreId="@Model.Id">List Book</a> |
+    <a asp-controller="Books" asp-action="IndexStore">List Book</a> |
     <a asp-controller="OrderDetails" asp-action="Index" asp-route-StoreId="@Model?.Id">Check purchase order</a> |
+    <a asp-controller="Books" asp-action="Create">Add Book</a> |
 </div>

@@ -24,6 +24,9 @@
             <th>
                 Unit Price
             </th>
+            <th>
+                Category
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -42,6 +45,9 @@
                     </td>
                     <td>
                        @(detail.Quantity * detail.Book.Price)                
+                    </td>
+                    <td>
+                       @detail.Book.Category.Name                 
                     </td>
                     <td>
                         <a asp-controller="Books" asp-action="Details" asp-route-id="@detail.Book.Isbn">Infor Book</a>
