@@ -4,6 +4,7 @@ using AsmStoreBook.Areas.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AsmStoreBook.Migrations
 {
     [DbContext(typeof(AsmStoreBookContext))]
-    partial class AsmStoreBookContextModelSnapshot : ModelSnapshot
+    [Migration("20220505125054_RemoveTotalPrice")]
+    partial class RemoveTotalPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,8 +147,8 @@ namespace AsmStoreBook.Migrations
                     b.Property<string>("BookIsbn")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double?>("Quantity")
+                        .HasColumnType("float");
 
                     b.Property<double?>("UnitPrice")
                         .HasColumnType("float");
@@ -213,8 +215,8 @@ namespace AsmStoreBook.Migrations
                     b.Property<string>("BookIsbn")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("int");
+                    b.Property<double?>("Quantity")
+                        .HasColumnType("float");
 
                     b.HasKey("OrderId", "BookIsbn");
 

@@ -87,6 +87,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va3NcVXNlckluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Carts/CartIndex.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydHNcQ2FydEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Carts/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -101,10 +105,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Carts/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydHNcRWRpdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Carts/Index - Copy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydHNcSW5kZXggLSBDb3B5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ACER/Documents/GitHub/AsmStoreBook/AsmStoreBook/AsmStoreBook/Views/Carts/Index.cshtml]

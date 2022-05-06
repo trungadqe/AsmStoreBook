@@ -46,7 +46,7 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Categories/Create
-        [Authorize(Roles = "Admin")]
+        /*[Authorize(Roles = "Admin")]*/
         public IActionResult Create()
         {
             return View();
@@ -69,7 +69,7 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Categories/Edit/5
-        [Authorize(Roles = "Admin")]
+        /*[Authorize(Roles = "Admin")]*/
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -121,7 +121,7 @@ namespace AsmStoreBook.Controllers
         }
 
         // GET: Categories/Delete/5
-        [Authorize(Roles = "Admin")]
+        /*[Authorize(Roles = "Admin")]*/
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -4,14 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-@using (Html.BeginForm())
-{
+<form asp-controller="Books" asp-action="IndexStore" asp-route-StoreId="@ViewBag.StoreId" method="get">
     <p>
-        Find by name: @Html.TextBox("SearchString")  
-        <input asp-controller="Books" asp-action="Search"  type="submit" value="Search" /></p>
-}
-<h1>Index</h1>
-<p>
+        Title: <input  type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
+<h1>Index</h1><p>
     <a asp-action="Create">Create New</a>
 </p>
     </p>

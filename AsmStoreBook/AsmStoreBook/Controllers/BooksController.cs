@@ -64,30 +64,25 @@ namespace AsmStoreBook.Controllers
                     .ToListAsync();
             return View(books);
         }
-        /*public async Task<IActionResult> OrderbookStore(int StoreId)
+        public async Task<IActionResult> IndexStore(int? StoreId,string? searchString, int id = 0)
         {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            *//*var StoreId = this.dbcontext.Store.GetAsyncEnumerator();*//*
-            List<Book> books = await _context.Book
-                .Include(b => b.OrderDetails)
-                .ThenInclude(b => b.Order)
-                .Include(b => b.Store)
-                .ThenInclude(b => b.User)
-                .Where(b => b.StoreId == StoreId)
-                .ToListAsync();
-            return View();
-        }*/
-        public async Task<IActionResult> IndexStore(int StoreId, int id = 0)
-        {
+            ViewData["CurrentFilter"] = searchString;
             ViewData["StoreId"] = StoreId;
+            /*if (StoreId == null)
+            {
+                StoreId = 
+            }*/
             /*var userId = _userManager.GetUserId(HttpContext.User);*/
-            List<Book> books = await _context.Book
-                    .Where(b => b.StoreId == StoreId)
+            var books = from b in _context.Book
+                        .Where(b => b.StoreId == StoreId)
                     .Skip(id * _numberOfRecordEachPages)
                     .Take(_numberOfRecordEachPages)
                     .Include(b => b.Category)
                     .Include(b => b.Store)
-                    .ToListAsync();
+                    select b;            
+            if (searchString != null) {
+                books = books.Where(b => b.Title.Contains(searchString));
+            }            
             int numberOfRecords = await _context.Book.CountAsync();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
             ViewBag.numberOfPages = numberOfPages;
@@ -111,9 +106,16 @@ namespace AsmStoreBook.Controllers
                 ViewBag.min = min;
                 ViewBag.end = end;
             }
+            List<Book> booksList = await books
+                .Include(b => b.Store)
+                .Where(b => b.StoreId == StoreId)
+                .Skip(id * _numberOfRecordEachPages)
+                .Take(_numberOfRecordEachPages)
+                .Include(b => b.Category)                
+                .ToListAsync();
             ViewBag.EndPage = numberOfPages - 1;
             ViewBag.currentPage = id;
-            return View(books);
+            return View(booksList);
         }
         public async Task<IActionResult> Search(string? searchString, int id = 0)
         {
@@ -122,12 +124,6 @@ namespace AsmStoreBook.Controllers
                         .Include(s => s.Category)
                         .Include(s => s.Store)
                         select s;
-            /*var books = from s in dbcontext.Book
-                        .Skip(id * _numberOfRecordEachPages)
-                        .Take(_numberOfRecordEachPages)
-                        .Include(b => b.Category)
-                        .Include(b => b.Store)
-                        select s;*/
             books = books.Where(s => s.Title.Contains(searchString));
             int numberOfRecords = books.Count();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);

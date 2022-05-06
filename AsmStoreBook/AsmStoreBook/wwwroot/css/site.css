@@ -1,18 +1,22 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+@media (min-width: 1025px) {
+    html {
+        font-size: 16px;
+    }
+
+    .h-custom {
+        height: 100vh !important;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }

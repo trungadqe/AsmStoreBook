@@ -29,7 +29,9 @@ namespace AsmStoreBook.Controllers
             var userName = await _userManager.GetUserAsync(HttpContext.User);
             if (userName == null)
             {
-                return RedirectToAction("NoLogin", "Home");
+                return View(await _context.Store
+                    .Include(s => s.User)
+                    .ToListAsync());
             }
             var rolesname = await _userManager.GetRolesAsync(userName);
             if (rolesname.Contains("Customer"))
@@ -52,18 +54,6 @@ namespace AsmStoreBook.Controllers
             }
             return View();
         }
-        /*public async Task<IActionResult> Product()
-        {
-            var userName = await _userManager.GetUserAsync(HttpContext.User);
-            if (userName == null)
-            {
-                return RedirectToAction("NoLogin", "Home");
-            }
-            var rolesname = await _userManager.GetRolesAsync(userName);
-            var userId = _userManager.GetUserId(HttpContext.User);
-            var store = _context.Store.Include(s => s.Books);
-            return View(store);
-        }*/
         // GET: Stores/Details/5
         public async Task<IActionResult> Details(int? id)
         {
