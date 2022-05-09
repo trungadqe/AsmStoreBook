@@ -81,7 +81,7 @@ namespace AsmStoreBook.Controllers
                         .Where(s => s.Store.Id == StoreId)                       
                         select s;
             if (searchString != null) {
-                books = books.Where(s => s.Title.Contains(searchString));
+                books = books.Where(s => s.Title.Contains(searchString) || s.Category.Name.Contains(searchString));
             }            
             int numberOfRecords = books.Count();
             int numberOfPages = (int)Math.Ceiling((double)numberOfRecords / _numberOfRecordEachPages);
